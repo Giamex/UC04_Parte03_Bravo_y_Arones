@@ -1,4 +1,29 @@
 {% extends 'layout.html' %}
+
+{% block title %}
+    {{titulo}}
+{% endblock %}
+
 {% block content %}
 <h1>Listado de Carreras</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <ul>
+        {% for carrera in carreras %}
+            <li>
+                <h4>{{carrera.id}} - {{carrera.nombre}}</h4> 
+                <span>Nombre Corto: {{carrera.nombre_corto}}</span>
+                <span>, Estado: {{carrera.estado}}</span>
+                
+                <a href="{% url 'eliminar_carrera' id=carrera.id %}">, Eliminar</a>
+
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock  %}

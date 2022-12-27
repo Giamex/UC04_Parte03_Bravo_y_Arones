@@ -26,5 +26,6 @@ urlpatterns = [
     path('save_curso/', views.save_curso, name='save_curso'),
     path('carreras/', views.carreras, name='carreras'),
     path('crear_carrera/', views.crear_carrera, name='crear_carrera'),
-    path('eliminar_carrera/', views.eliminar_carrera, name='eliminar_carrera'),
+    path('eliminar_carrera/<int:id>', views.eliminar_carrera, name='eliminar_carrera'),
+    path('save_carrera/', views.save_carrera, name='save_carrera'),
 ]

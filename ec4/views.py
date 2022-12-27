@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from ec4.models import Curso
+from ec4.models import Curso, Carreras
 from django.contrib import messages
 
 
@@ -50,11 +50,37 @@ def save_curso(request):
 
 
 def carreras(request):
-    return render(request, 'carreras.html')
+    carreras = Carreras.objects.all()
+    return render(request, 'carreras.html',{
+        'carreras': carreras,
+        'titulo': 'Listado de Carreras'
+    })
 
 def crear_carrera(request):
-    return render(request, 'crear_carrera.html')
+ return render(request, 'crear_carrera.html',{
+        'titulo': 'Agregar Carrera'
+    })
 
-def eliminar_carrera(request):
-    return render(request, 'eliminar_carrera.html')
 
+def eliminar_carrera(request,id):
+    carrera = Carreras.objects.get(pk=id)
+    carrera.delete()
+    return redirect('carreras')
+
+def save_carrera(request):
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        nombre_corto = request.POST['nombre_corto']
+        estado = request.POST['estado']
+ 
+        carrera = Carreras(
+            nombre = nombre,
+            nombre_corto = nombre_corto,
+            estado = estado
+        )
+        carrera.save()
+        # Crear un mensaje flash (Sesión que solo se muestra 1 vez)
+        messages.success(request, f'Se agregó correctamente la carrera {carrera.id}')
+        return redirect('carreras')
+    else:
+        return HttpResponse("<h2>No se ha podido registrar la carrera</h2>")
